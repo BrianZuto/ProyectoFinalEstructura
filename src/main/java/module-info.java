@@ -1,16 +1,24 @@
 module com.example.proyectofinal {
     requires javafx.controls;
     requires javafx.fxml;
-    requires javafx.web;
+    requires javafx.graphics;
+    requires javafx.base;
 
-    requires org.controlsfx.controls;
-    requires com.dlsc.formsfx;
-    requires net.synedra.validatorfx;
-    requires org.kordamp.ikonli.javafx;
-    requires org.kordamp.bootstrapfx.core;
-    requires eu.hansolo.tilesfx;
-    requires com.almasb.fxgl.all;
+    // Exporta el paquete principal con la clase MainApp
+    exports com.example.proyectofinal.main;
 
-    opens com.example.proyectofinal to javafx.fxml;
-    exports com.example.proyectofinal;
+    // Exporta el paquete controlador donde están los controladores
+    exports com.example.proyectofinal.controlador;
+
+    // Exporta el paquete modelo para el uso del modelo de datos
+    exports com.example.proyectofinal.modelo;
+
+    // Abre el paquete controlador para la reflexión de JavaFX
+    opens com.example.proyectofinal.controlador to javafx.fxml;
+
+    // Abre el paquete modelo para la reflexión de JavaFX (si es necesario)
+    opens com.example.proyectofinal.modelo to javafx.fxml;
+
+    // Abre el paquete con recursos FXML
+    opens com.example.proyectofinal.vista to javafx.fxml;
 }
