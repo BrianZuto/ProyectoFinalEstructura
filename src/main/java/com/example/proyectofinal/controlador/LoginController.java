@@ -19,7 +19,7 @@ public class LoginController {
     private PasswordField passwordField;
 
     @FXML
-    private Button goToRegisterButton;  // Este es el botón para navegar al registro
+    private Button goToRegisterButton;
 
     public void handleLogin() {
         String username = usernameField.getText();
