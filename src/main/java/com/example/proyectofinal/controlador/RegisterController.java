@@ -10,9 +10,8 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import com.example.proyectofinal.modelo.User;
 import javafx.stage.Stage;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.BufferedWriter;
+
+import java.io.*;
 
 public class RegisterController {
 
@@ -49,12 +48,41 @@ public class RegisterController {
     }
 
     private void saveUserToFile(User user) {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter("src/main/resources/com/example/proyectofinal/persistence/users.txt", true))) {
+        File file = new File("src/main/resources/com/example/proyectofinal/persistence/users.txt");
+
+        // Verificar si el usuario ya existe
+        if (validateUser(user.getUsername(), user.getPassword())) {
+            Alert alert = new Alert(AlertType.WARNING);
+            alert.setTitle("Error de Registro");
+            alert.setHeaderText("Usuario ya existe");
+            alert.setContentText("El usuario ya existe, por favor intenta con otro usuario.");
+            alert.showAndWait();
+            return;
+        }
+
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(file, true))) {
             writer.write(user.getUsername() + "," + user.getPassword());
             writer.newLine();
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private boolean validateUser(String username, String password) {
+        // Leer el archivo users.txt
+        File file = new File("src/main/resources/com/example/proyectofinal/persistence/users.txt");
+        try (BufferedReader br = new BufferedReader(new FileReader(file))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                String[] userData = line.split(",");
+                if (userData.length == 2 && userData[0].equals(username) && userData[1].equals(password)) {
+                    return true; // Usuario válido
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return false; // Si no se encuentra el usuario o las credenciales no coinciden
     }
 
 

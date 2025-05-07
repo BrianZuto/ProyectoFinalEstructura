@@ -28,16 +28,30 @@ public class LoginController {
         String password = passwordField.getText();
 
         if (validateUser(username, password)) {
-            Alert alert = new Alert(AlertType.INFORMATION);
-            alert.setTitle("Ingreso");
-            alert.setHeaderText("¡Aprobado!");
-            alert.setContentText("Ingresado con éxito!");
-            alert.showAndWait();
+            // Si las credenciales son correctas, abrir el dashboard
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/proyectofinal/vista/dashboard.fxml"));
+                Stage stage = new Stage();
+                stage.setScene(new Scene(loader.load()));
+                stage.setTitle("Dashboard");
+                stage.show();
+
+                // Cerrar la ventana de login
+                Stage currentStage = (Stage) usernameField.getScene().getWindow();
+                currentStage.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error");
+                alert.setHeaderText("No se pudo cargar la vista del panel");
+                alert.setContentText("Por favor, compruebe las rutas de los archivos.");
+                alert.showAndWait();
+            }
         } else {
             Alert alert = new Alert(AlertType.ERROR);
             alert.setTitle("Error de Ingreso");
-            alert.setHeaderText("Credenciales Invalidas");
-            alert.setContentText("Por favor verifica tu usuario y contraseña.");
+            alert.setHeaderText("Credenciales Inválidas");
+            alert.setContentText("Por favor comprueba tu usuario y contraseña.");
             alert.showAndWait();
         }
     }
@@ -58,28 +72,6 @@ public class LoginController {
         }
         return false; // Si no se encuentra el usuario o las credenciales no coinciden
     }
-
-    private void saveUserToFile(User user) {
-        File file = new File("src/main/resources/com/example/proyectofinal/persistence/users.txt");
-
-        // Verificar si el usuario ya existe
-        if (validateUser(user.getUsername(), user.getPassword())) {
-            Alert alert = new Alert(AlertType.WARNING);
-            alert.setTitle("Register Error");
-            alert.setHeaderText("User already exists");
-            alert.setContentText("The username already exists. Please choose another username.");
-            alert.showAndWait();
-            return;
-        }
-
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(file, true))) {
-            writer.write(user.getUsername() + "," + user.getPassword());
-            writer.newLine();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
 
 
     // Método para navegar al formulario de registro
