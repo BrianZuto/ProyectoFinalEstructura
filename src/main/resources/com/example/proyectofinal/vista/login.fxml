@@ -4,15 +4,15 @@
 <?import javafx.geometry.Pos?>
 
 <VBox xmlns:fx="http://javafx.com/fxml" fx:controller="com.example.proyectofinal.controlador.LoginController" spacing="30" alignment="CENTER" style="-fx-background-color: #f4f4f4; -fx-padding: 50px;">
-    <Label text="Login" style="-fx-font-size: 24px; -fx-font-weight: bold;" />
+    <Label text="Ingreso" style="-fx-font-size: 24px; -fx-font-weight: bold;" />
 
-    <TextField fx:id="usernameField" promptText="Enter Username" style="-fx-padding: 10px; -fx-font-size: 14px; -fx-background-color: white; -fx-border-color: #ccc; -fx-border-radius: 5px; -fx-pref-width: 300px;" />
-    <PasswordField fx:id="passwordField" promptText="Enter Password" style="-fx-padding: 10px; -fx-font-size: 14px; -fx-background-color: white; -fx-border-color: #ccc; -fx-border-radius: 5px; -fx-pref-width: 300px;" />
+    <TextField fx:id="usernameField" promptText="Ingresa el Usuario" style="-fx-padding: 10px; -fx-font-size: 14px; -fx-background-color: white; -fx-border-color: #ccc; -fx-border-radius: 5px; -fx-pref-width: 300px;" />
+    <PasswordField fx:id="passwordField" promptText="Ingresa la Contraseña" style="-fx-padding: 10px; -fx-font-size: 14px; -fx-background-color: white; -fx-border-color: #ccc; -fx-border-radius: 5px; -fx-pref-width: 300px;" />
 
-    <Button text="Login" onAction="#handleLogin" style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-padding: 10px 20px; -fx-font-size: 16px; -fx-border-radius: 5px; -fx-pref-width: 300px;" />
+    <Button text="Ingresar" onAction="#handleLogin" style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-padding: 10px 20px; -fx-font-size: 16px; -fx-border-radius: 5px; -fx-pref-width: 300px;" />
 
     <HBox spacing="10" alignment="CENTER">
-        <Label text="Don't have an account?" />
-        <Button text="Register" onAction="#goToRegister" style="-fx-background-color: #008CBA; -fx-text-fill: white; -fx-padding: 8px 16px; -fx-font-size: 14px; -fx-border-radius: 5px;" />
+        <Label text="¿No tienes una cuenta?" />
+        <Button text="Ir a Registro" onAction="#goToRegister" style="-fx-background-color: #008CBA; -fx-text-fill: white; -fx-padding: 8px 16px; -fx-font-size: 14px; -fx-border-radius: 5px;" />
     </HBox>
 </VBox>

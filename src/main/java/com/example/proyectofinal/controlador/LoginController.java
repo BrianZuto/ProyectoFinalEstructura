@@ -1,5 +1,6 @@
 package com.example.proyectofinal.controlador;
 
+import com.example.proyectofinal.modelo.User;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -9,7 +10,8 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
-import java.io.IOException;
+
+import java.io.*;
 
 public class LoginController {
 
@@ -27,41 +29,74 @@ public class LoginController {
 
         if (validateUser(username, password)) {
             Alert alert = new Alert(AlertType.INFORMATION);
-            alert.setTitle("Login");
-            alert.setHeaderText("Success");
-            alert.setContentText("Login Successful!");
+            alert.setTitle("Ingreso");
+            alert.setHeaderText("¡Aprobado!");
+            alert.setContentText("Ingresado con éxito!");
             alert.showAndWait();
         } else {
             Alert alert = new Alert(AlertType.ERROR);
-            alert.setTitle("Login Error");
-            alert.setHeaderText("Invalid credentials");
-            alert.setContentText("Please check your username and password.");
+            alert.setTitle("Error de Ingreso");
+            alert.setHeaderText("Credenciales Invalidas");
+            alert.setContentText("Por favor verifica tu usuario y contraseña.");
             alert.showAndWait();
         }
     }
 
     private boolean validateUser(String username, String password) {
-        // Aquí validas el usuario con el archivo o base de datos
-        return true;
+        // Leer el archivo users.txt
+        File file = new File("src/main/resources/com/example/proyectofinal/persistence/users.txt");
+        try (BufferedReader br = new BufferedReader(new FileReader(file))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                String[] userData = line.split(",");
+                if (userData.length == 2 && userData[0].equals(username) && userData[1].equals(password)) {
+                    return true; // Usuario válido
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return false; // Si no se encuentra el usuario o las credenciales no coinciden
     }
+
+    private void saveUserToFile(User user) {
+        File file = new File("src/main/resources/com/example/proyectofinal/persistence/users.txt");
+
+        // Verificar si el usuario ya existe
+        if (validateUser(user.getUsername(), user.getPassword())) {
+            Alert alert = new Alert(AlertType.WARNING);
+            alert.setTitle("Register Error");
+            alert.setHeaderText("User already exists");
+            alert.setContentText("The username already exists. Please choose another username.");
+            alert.showAndWait();
+            return;
+        }
+
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(file, true))) {
+            writer.write(user.getUsername() + "," + user.getPassword());
+            writer.newLine();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
 
     // Método para navegar al formulario de registro
     @FXML
     public void goToRegister() {
         try {
-            // Cambiar la ruta al archivo FXML, asegurándote de que esté correcta
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/proyectofinal/vista/register.fxml"));
-            Stage stage = new Stage();  // Crear un nuevo escenario para la vista de registro
+            Stage stage = new Stage();
             stage.setScene(new Scene(loader.load()));
-            stage.setTitle("Register");
+            stage.setTitle("Registro");
             stage.show();
 
-            // Cerrar la ventana actual (opcional)
+            // Cerrar la ventana actual
             Stage currentStage = (Stage) goToRegisterButton.getScene().getWindow();
             currentStage.close();
         } catch (IOException e) {
             e.printStackTrace();
-            // Mostrar mensaje de error si no se pudo cargar la vista
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
             alert.setHeaderText("No se pudo cargar la vista de registro");
@@ -69,5 +104,4 @@ public class LoginController {
             alert.showAndWait();
         }
     }
-
 }
