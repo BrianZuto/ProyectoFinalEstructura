@@ -1,9 +1,50 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.geometry.Pos?>
+<?import javafx.geometry.Insets?>
 
-<VBox xmlns:fx="http://javafx.com/fxml" fx:controller="com.example.proyectofinal.controlador.DashboardController" spacing="30" alignment="CENTER" style="-fx-background-color: #f4f4f4; -fx-padding: 50px;">
-    <Label text="Welcome to your Dashboard" style="-fx-font-size: 24px; -fx-font-weight: bold;" />
-    <Button text="Log Out" onAction="#handleLogout" style="-fx-background-color: #f44336; -fx-text-fill: white; -fx-padding: 10px 20px; -fx-font-size: 16px; -fx-border-radius: 5px; -fx-pref-width: 200px;" />
-</VBox>
+<BorderPane xmlns:fx="http://javafx.com/fxml" fx:controller="com.example.proyectofinal.controlador.DashboardController">
+    <top>
+        <Label text="🌐 Red Social de Aprendizaje" style="-fx-font-size: 22px; -fx-padding: 15px; -fx-font-weight: bold; -fx-background-color: #3f51b5; -fx-text-fill: white;" />
+    </top>
+
+    <center>
+        <VBox spacing="15">
+
+            <padding>
+                <Insets top="20" right="20" bottom="20" left="20" />
+            </padding>
+
+            <HBox spacing="15">
+                <VBox spacing="10">
+                    <Label text="📚 Publicar Contenido" style="-fx-font-weight: bold;" />
+                    <TextField fx:id="txtTitulo" promptText="Título" />
+                    <TextField fx:id="txtAutor" promptText="Autor" />
+                    <TextField fx:id="txtTema" promptText="Tema" />
+                    <TextField fx:id="txtTipo" promptText="Tipo (archivo, video, etc.)" />
+                    <Button text="Publicar" onAction="#publicarContenido" style="-fx-background-color: #4CAF50; -fx-text-fill: white;" />
+                </VBox>
+
+                <VBox spacing="10">
+                    <Label text="🆘 Solicitar Ayuda Académica" style="-fx-font-weight: bold;" />
+                    <TextArea fx:id="txtAreaAyuda" promptText="Describe tu necesidad" prefRowCount="4" />
+                    <ComboBox fx:id="comboUrgencia" promptText="Nivel de urgencia" />
+                    <Button text="Solicitar Ayuda" onAction="#solicitarAyuda" style="-fx-background-color: #f44336; -fx-text-fill: white;" />
+                </VBox>
+            </HBox>
+
+            <HBox spacing="20">
+                <VBox spacing="10" VBox.vgrow="ALWAYS">
+                    <Label text="📝 Contenidos Publicados" />
+                    <ListView fx:id="listContenidos" prefHeight="200" />
+                </VBox>
+
+                <VBox spacing="10" VBox.vgrow="ALWAYS">
+                    <Label text="🚨 Solicitudes de Ayuda (por prioridad)" />
+                    <ListView fx:id="listSolicitudes" prefHeight="200" />
+                </VBox>
+            </HBox>
+        </VBox>
+    </center>
+</BorderPane>

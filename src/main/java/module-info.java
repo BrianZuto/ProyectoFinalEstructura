@@ -5,7 +5,7 @@ module com.example.proyectofinal {
     requires javafx.base;
 
     // Exporta el paquete principal con la clase MainApp
-    exports com.example.proyectofinal.main;
+    exports com.example.proyectofinal;
 
     // Exporta el paquete controlador donde están los controladores
     exports com.example.proyectofinal.controlador;

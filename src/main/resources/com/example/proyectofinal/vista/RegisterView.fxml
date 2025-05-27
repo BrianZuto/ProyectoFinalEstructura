@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="com.example.proyectofinal.controlador.RegisterController">
+    <VBox spacing="15" alignment="CENTER" AnchorPane.topAnchor="30" AnchorPane.leftAnchor="30" AnchorPane.rightAnchor="30">
+        <Label text="📝 Registro de Usuario" style="-fx-font-size: 24px; -fx-font-weight: bold;" />
+
+        <TextField fx:id="txtUsername" promptText="Nombre de usuario" />
+        <PasswordField fx:id="txtPassword" promptText="Contraseña" />
+        <ComboBox fx:id="comboRol" promptText="Selecciona tu rol" />
+
+        <Button text="Registrar" onAction="#registrarUsuario" style="-fx-background-color: #4CAF50; -fx-text-fill: white;" />
+        <Hyperlink text="¿Ya tienes cuenta? Inicia sesión" onAction="#irALogin" />
+    </VBox>
+</AnchorPane>
