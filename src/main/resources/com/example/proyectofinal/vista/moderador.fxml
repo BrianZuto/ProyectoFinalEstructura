@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml" fx:controller="com.example.proyectofinal.controlador.ModeradorController">
+    <top>
+        <Label text="🛠 Panel del Moderador" style="-fx-font-size: 20px; -fx-padding: 10px; -fx-font-weight: bold;" />
+    </top>
+
+    <center>
+        <VBox spacing="15">
+            <padding>
+                <Insets top="20" right="20" bottom="20" left="20" />
+            </padding>
+
+            <Label text="📈 Reportes Generales" style="-fx-font-weight: bold;" />
+            <ListView fx:id="listReportes" prefHeight="150" />
+
+            <Label text="🌐 Visualización del Grafo de Afinidad" style="-fx-font-weight: bold;" />
+            <ScrollPane prefHeight="300">
+                <Pane fx:id="grafoPane" prefWidth="600" prefHeight="300" style="-fx-background-color: #e0e0e0;" />
+            </ScrollPane>
+        </VBox>
+    </center>
+</BorderPane>
