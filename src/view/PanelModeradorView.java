@@ -58,7 +58,7 @@ public class PanelModeradorView extends JFrame {
 
         tabs.add("Usuarios", crearTabUsuarios());
         tabs.add("Reportes", crearTabReportes());
-        tabs.add("Grafo de Afinidad", crearTabGrafo());
+       // tabs.add("Grafo de Afinidad", crearTabGrafo());
         tabs.add("Ruta más corta", crearTabRutaMasCorta());
         tabs.add("Clústeres", crearTabClusters());
         tabs.add("Solicitudes de Ayuda", crearTabAyuda());

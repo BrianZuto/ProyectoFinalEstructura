@@ -16,10 +16,10 @@ public class Main {
         LinkedList<String> intereses2 = new LinkedList<>(Arrays.asList("historia", "literatura"));
         LinkedList<String> intereses3 = new LinkedList<>(Arrays.asList("física", "IA"));
 
-        authController.registrarEstudiante("Carlos Ruiz", "carlos@correo.com", "1234", intereses1);
-        authController.registrarEstudiante("Ana López", "ana@correo.com", "abcd", intereses2);
-        authController.registrarEstudiante("Kevin Torres", "kevin@correo.com", "kevin123", intereses3);
-        authController.registrarModerador("Prof. Martínez", "admin", "admin");
+        authController.registrarEstudiante("Luis Torres", "luis@gmail.com", "12345", intereses1);
+        authController.registrarEstudiante("Luis Osorio", "luismanuel@correo.com", "abcd", intereses2);
+        authController.registrarEstudiante("Carolina", "carolina@correo.com", "caro123", intereses3);
+        authController.registrarModerador("Profesor Manuel", "admin", "admin");
 
         new LoginView(authController, ayudaController, contenidoController);
     }

@@ -16,6 +16,9 @@ public class PanelEstudianteView extends JFrame {
     private AyudaController ayudaController;
     private JTextArea areaInicio;
     private JTextArea areaBuscar;
+    private JTextArea areaSolicitudes; // Área de texto para mostrar las solicitudes
+    private JButton cargarBtn;          // Botón para cargar las solicitudes
+
 
     public PanelEstudianteView(Estudiante estudiante, AuthController authController, AyudaController ayudaController, ContenidoController contenidoController) {
     this.estudiante = estudiante;
@@ -55,6 +58,7 @@ public class PanelEstudianteView extends JFrame {
         boton.setBorder(BorderFactory.createEmptyBorder(5, 15, 5, 15));
         return boton;
     }
+    
 
     private void inicializarPestañas() {
         JTabbedPane tabs = new JTabbedPane();
@@ -93,6 +97,34 @@ public class PanelEstudianteView extends JFrame {
 
         
         
+    }
+
+     private void cargarSolicitudes() {
+        areaSolicitudes.setText("Solicitudes de ayuda registradas:\n\n"); // Limpia el área de texto
+        List<SolicitudAyuda> solicitudes = ayudaController.verSolicitudes(); // Obtiene la lista de solicitudes
+        
+        if (solicitudes.isEmpty()) {
+            areaSolicitudes.append("No hay solicitudes registradas.\n"); // Mensaje si no hay solicitudes
+        } else {
+            int i = 0;
+            for (SolicitudAyuda s : solicitudes) {
+                // Muestra información básica de la solicitud
+                areaSolicitudes.append(i + ". " + s.getEstudiante().getNombre() +
+                        " - Tema: " + s.getTema() + " | Urgencia: " + s.getUrgencia() + "\n");
+                
+                // Muestra respuestas si existen
+                if (!s.getRespuestas().isEmpty()) {
+                    areaSolicitudes.append("  Respuestas:\n");
+                    for (Mensaje respuesta : s.getRespuestas()) {
+                        areaSolicitudes.append("    De: " + respuesta.getEmisor() + 
+                                               " | Mensaje: " + respuesta.getContenido() + "\n");
+                    }
+                } else {
+                    areaSolicitudes.append("  No hay respuestas a esta solicitud.\n");
+                }
+                i++;
+            }
+        }
     }
     
     private JPanel crearTabInicio() {
@@ -211,36 +243,42 @@ public class PanelEstudianteView extends JFrame {
     });
 
     // Responder solicitud
-    responderBtn.addActionListener(e -> {
-        try {
-            int index = Integer.parseInt(campoIndice.getText());
-            String mensaje = campoRespuesta.getText();
-            String fecha = campoFecha.getText();
+    // Dentro del método responderSolicitud en PanelEstudianteView
+responderBtn.addActionListener(e -> {
+    try {
+        int index = Integer.parseInt(campoIndice.getText());
+        String mensaje = campoRespuesta.getText();
+        String fecha = campoFecha.getText();
 
-            List<SolicitudAyuda> solicitudes = ayudaController.verSolicitudes();
-            if (index < 0 || index >= solicitudes.size()) {
-                JOptionPane.showMessageDialog(this, "Índice fuera de rango.");
-                return;
-            }
-
-            SolicitudAyuda seleccionada = solicitudes.get(index);
-            Estudiante receptor = seleccionada.getEstudiante();
-
-            if (receptor.equals(estudiante)) {
-                JOptionPane.showMessageDialog(this, "No puedes responder tu propia solicitud.");
-                return;
-            }
-
-            // Enviar mensaje al estudiante solicitante
-            MensajeController mensajeController = new MensajeController();
-            mensajeController.enviarMensaje(estudiante, receptor, mensaje, fecha);
-            JOptionPane.showMessageDialog(this, "Respuesta enviada correctamente.");
-            campoRespuesta.setText("");
-
-        } catch (Exception ex) {
-            JOptionPane.showMessageDialog(this, "Error al responder: " + ex.getMessage());
+        List<SolicitudAyuda> solicitudes = ayudaController.verSolicitudes();
+        if (index < 0 || index >= solicitudes.size()) {
+            JOptionPane.showMessageDialog(this, "Índice fuera de rango.");
+            return;
         }
-    });
+
+        SolicitudAyuda seleccionada = solicitudes.get(index);
+        Estudiante receptor = seleccionada.getEstudiante();
+
+        if (receptor.equals(estudiante)) {
+            JOptionPane.showMessageDialog(this, "No puedes responder tu propia solicitud.");
+            return;
+        }
+
+        // Enviar mensaje al estudiante solicitante
+        MensajeController mensajeController = new MensajeController();
+        mensajeController.enviarMensaje(estudiante, receptor, mensaje, fecha);
+
+        // Agregar respuesta a la solicitud
+        seleccionada.agregarRespuesta(new Mensaje(estudiante.getNombre(), receptor.getNombre(), mensaje, fecha));
+
+        JOptionPane.showMessageDialog(this, "Respuesta enviada correctamente.");
+        campoRespuesta.setText("");
+
+    } catch (Exception ex) {
+        JOptionPane.showMessageDialog(this, "Error al responder: " + ex.getMessage());
+    }
+});
+
 
     JPanel respuestas = new JPanel(new GridLayout(6, 1, 5, 5));
     respuestas.setBorder(BorderFactory.createTitledBorder("Responder solicitud"));
@@ -489,9 +527,6 @@ public class PanelEstudianteView extends JFrame {
 }
 
 
-
-    
-    
     private JPanel crearTabMisContenidos() {
     JPanel panel = new JPanel(new BorderLayout());
     JTextArea area = new JTextArea();
